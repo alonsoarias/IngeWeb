@@ -50,36 +50,42 @@ document.addEventListener('DOMContentLoaded', async function() {
 function displayCourses(courses, token) {
     const courseList = document.getElementById('courseList');
     if (courses.length === 0) {
-        courseList.innerHTML = '<li class="list-group-item">No estás matriculado en ningún curso.</li>';
+        courseList.innerHTML = '<div class="alert alert-info">No estás matriculado en ningún curso.</div>';
     } else {
         courses.forEach(course => {
-            const li = document.createElement('li');
-            li.className = 'list-group-item';
+            const card = document.createElement('div');
+            card.className = 'card mb-3';
+
+            const cardBody = document.createElement('div');
+            cardBody.className = 'card-body';
 
             // Nombre del curso
-            const courseName = document.createElement('span');
+            const courseName = document.createElement('h5');
+            courseName.className = 'card-title';
             courseName.textContent = course.fullname;
-            li.appendChild(courseName);
+            cardBody.appendChild(courseName);
 
             // Botón "Acceder"
             const accessButton = document.createElement('a');
             accessButton.href = `${MOODLE_URL}/course/view.php?id=${course.id}`;
-            accessButton.target = "_blank"; // Esto hará que se abra en una nueva pestaña
-            accessButton.className = 'btn btn-primary ml-3';
+            accessButton.target = "_blank";
+            accessButton.className = 'btn btn-primary';
             accessButton.textContent = 'Acceder';
-            li.appendChild(accessButton);
+            cardBody.appendChild(accessButton);
 
             // Botón "Ver Contenido"
             const viewContentButton = document.createElement('a');
             viewContentButton.href = `courseContent.html?courseId=${course.id}`;
             viewContentButton.className = 'btn btn-secondary ml-3';
             viewContentButton.textContent = 'Ver Contenido';
-            li.appendChild(viewContentButton);
+            cardBody.appendChild(viewContentButton);
 
-            courseList.appendChild(li);
+            card.appendChild(cardBody);
+            courseList.appendChild(card);
         });
     }
 }
+
 
 // Función para manejar el cierre de sesión
 document.getElementById('logoutBtn').addEventListener('click', function() {

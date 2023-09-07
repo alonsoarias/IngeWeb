@@ -77,9 +77,12 @@ function displayCourseContents(contents, token, courseId) {
         sectionTitle.textContent = section.name;
         sectionDiv.appendChild(sectionTitle);
 
-        const activitiesList = document.createElement('ul');
+        const activitiesList = document.createElement('div');
+        activitiesList.className = 'list-group'; // Usamos list-group de Bootstrap
+
         section.modules.forEach(async module => {
-            const activityItem = document.createElement('li');
+            const activityItem = document.createElement('a');
+            activityItem.className = 'list-group-item list-group-item-action'; // Estilos de Bootstrap
             activityItem.textContent = module.name;
 
             if (module.modname === 'url') {
@@ -88,13 +91,13 @@ function displayCourseContents(contents, token, courseId) {
                 if (moduleUrl) {
                     const collapseButton = document.createElement('button');
                     collapseButton.textContent = "Ver contenido";
-                    collapseButton.className = "btn btn-link btn-sm";
+                    collapseButton.className = "btn btn-link btn-sm float-end"; // Alineamos el botón a la derecha
                     collapseButton.setAttribute("data-bs-toggle", "collapse");
                     collapseButton.setAttribute("data-bs-target", `#collapse${module.id}`);
                     activityItem.appendChild(collapseButton);
 
                     const iframeDiv = document.createElement('div');
-                    iframeDiv.className = "collapse";
+                    iframeDiv.className = "collapse mt-2";
                     iframeDiv.id = `collapse${module.id}`;
                     const iframe = document.createElement('iframe');
                     iframe.src = moduleUrl.externalurl;
